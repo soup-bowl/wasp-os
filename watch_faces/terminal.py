@@ -34,8 +34,7 @@ class TerminalApp():
     def _draw(self, redraw=False):
         draw = wasp.watch.drawable
         hi =  wasp.system.theme('bright')
-        lo =  wasp.system.theme('mid')
-        mid = draw.lighten(lo, 1)
+        prompt = "user@watch:~ $"
 
         now = wasp.watch.rtc.get_localtime()
         if redraw:
@@ -48,24 +47,27 @@ class TerminalApp():
         draw.set_font(fonts.sans18)
 
         start = 60
+        label_x = 0
+        text_x = 80
+        gap = 20
 
         draw.set_color(hi)
-        draw.string("user@watch:~ $ now", 0, (start))
-        draw.string("[TIME]", 0, (start + 20))
-        draw.string("[DATE]", 0, (start + 40))
-        draw.string("[BATT]", 0, (start + 60))
-        draw.string("[STAT]", 0, (start + 80))
-        draw.string("user@watch:~ $", 0, (start + 100))
+        draw.string(prompt + " now", label_x, (start))
+        draw.string("[TIME]", label_x, (start + (gap * 1)))
+        draw.string("[DATE]", label_x, (start + (gap * 2)))
+        draw.string("[BATT]", label_x, (start + (gap * 3)))
+        draw.string("[STAT]", label_x, (start + (gap * 4)))
+        draw.string(prompt, label_x, (start + (gap * 5)))
 
         draw.set_color(COLORS[0])
-        draw.string(self._time_string(now), 80, (start + 20))
+        draw.string(self._time_string(now), text_x, (start + (gap * 1)))
         draw.set_color(COLORS[1])
-        draw.string(self._day_string(now), 80, (start + 40))
+        draw.string(self._day_string(now), text_x, (start + (gap * 2)))
         draw.set_color(COLORS[2])
-        draw.string(str(watch.battery.level()), 80, (start + 60))
+        draw.string(str(watch.battery.level()), text_x, (start + (gap * 3)))
         draw.set_color(COLORS[5])
-        draw.fill(x=80, y=(start + 80), w=80, h=20)
-        draw.string("Connected" if wasp.watch.connected() else "Disconnected", 80, (start + 80))
+        draw.fill(x=text_x, y=(start + (gap * 4)), w=80, h=20)
+        draw.string("Connected" if wasp.watch.connected() else "Disconnected", text_x, (start + (gap * 4)))
 
         # Record the minute that is currently being displayed
         self._min = now[4]
