@@ -44,7 +44,7 @@ class TerminalApp():
             if not now or self._sec == now[5]:
                 return
         
-        draw.set_font(fonts.sans18)
+        draw.set_font(fonts.sono18)
 
         start = 60
         label_x = 0
@@ -66,9 +66,9 @@ class TerminalApp():
         draw.set_color(COLORS[2])
         draw.string("{}% {}".format(
             watch.battery.level(),
-            " Charging" if watch.battery.charging() else "             "
+            "Charging" if watch.battery.charging() else " " * 7
         ), text_x, (start + (gap * 3)))
         draw.set_color(COLORS[5])
-        draw.string("Connected     " if wasp.watch.connected() else "Disconnected", text_x, (start + (gap * 4)))
+        draw.string("Connected   " if wasp.watch.connected() else "Disconnected", text_x, (start + (gap * 4)))
 
         self._sec = now[5]
