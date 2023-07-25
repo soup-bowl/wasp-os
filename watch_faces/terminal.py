@@ -24,12 +24,18 @@ class TerminalApp():
     def preview(self):
         wasp.system.bar.clock = False
         self._draw(True)
+
+    def _pad_number(self, s, width):
+        if len(s) >= width:
+            return s
+        else:
+            return '0' * (width - len(s)) + s
     
     def _time_string(self, now):
-        return '{}:{}:{}'.format(str(now[3]).zfill(2), str(now[4]).zfill(2), str(now[5]).zfill(2))
+        return '{}:{}:{}'.format(self._pad_number(str(now[3]), 2), self._pad_number(str(now[4]), 2), self._pad_number(str(now[5]), 2))
 
     def _day_string(self, now):
-        return '{}-{}-{}'.format(now[0], str(now[1]).zfill(2), str(now[2]).zfill(2))
+        return '{}-{}-{}'.format(now[0], self._pad_number(str(now[1]), 2), self._pad_number(str(now[2]), 2))
 
     def _draw(self, redraw=False):
         draw = wasp.watch.drawable
