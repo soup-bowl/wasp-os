@@ -41,8 +41,8 @@ class TerminalApp():
             draw.fill()
         else:
             now = wasp.watch.rtc.get_localtime()
-            #if not now or self._min == now[4]:
-            #    return
+            if not now or self._sec == now[5]:
+                return
         
         draw.set_font(fonts.sans18)
 
@@ -64,10 +64,11 @@ class TerminalApp():
         draw.set_color(COLORS[1])
         draw.string(self._day_string(now), text_x, (start + (gap * 2)))
         draw.set_color(COLORS[2])
-        draw.string(str(watch.battery.level()), text_x, (start + (gap * 3)))
+        draw.string("{}% {}".format(
+            watch.battery.level(),
+            " Charging" if watch.battery.charging() else "             "
+        ), text_x, (start + (gap * 3)))
         draw.set_color(COLORS[5])
-        draw.fill(x=text_x, y=(start + (gap * 4)), w=80, h=20)
-        draw.string("Connected" if wasp.watch.connected() else "Disconnected", text_x, (start + (gap * 4)))
+        draw.string("Connected     " if wasp.watch.connected() else "Disconnected", text_x, (start + (gap * 4)))
 
-        # Record the minute that is currently being displayed
-        self._min = now[4]
+        self._sec = now[5]
