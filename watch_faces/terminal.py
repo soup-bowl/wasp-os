@@ -1,3 +1,13 @@
+# SPDX-License-Identifier: LGPL-3.0-or-later
+# Copyright (C) 2020 soup-bowl
+
+"""Terminal clock
+~~~~~~~~~~~~~~~~~~
+
+Inspired by the terminal face found in Infinitime, this watch face displays the
+time in a style of a simulated terminal command.
+"""
+
 import wasp
 import watch
 import fonts
@@ -5,6 +15,7 @@ import fonts
 COLORS = [0x166A,0x03FF,0x3BCA,0xE98E,0xE982,0x041F]
 
 class TerminalApp():
+    """Terminal prompt-style watch face"""
     NAME = 'Terminal'
 
     def foreground(self):
