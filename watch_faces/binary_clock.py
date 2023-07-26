@@ -41,8 +41,12 @@ class BinaryClockApp():
             return '0' * (width - len(s)) + s
 
     def _calculate_binary_dots(self, value, num_dots):
+        # Convert value to 12-hour format if needed
+        if num_dots == 4 and value > 12:
+            value -= 12
+
         # Convert value to binary representation
-        binary_value = bin(value)[2:]
+        binary_value = bin(value % (2**num_dots))[2:]
         binary_value = '0' * (num_dots - len(binary_value)) + binary_value
 
         # Create an array to represent the dots, initialized with False
@@ -85,31 +89,31 @@ class BinaryClockApp():
         hi =  wasp.system.theme('bright')
         prompt = "user@watch:~ $"
 
+        draw.set_font(fonts.sans18)
+
         if redraw:
             now = wasp.watch.rtc.get_localtime()
             draw.fill()
             wasp.system.bar.draw()
 
             # Hour Labels
-            draw.string("8", 65, 65)
-            draw.string("4", 95, 65)
-            draw.string("2", 125, 65)
+            draw.string("8", 68, 65)
+            draw.string("4", 97, 65)
+            draw.string("2", 127, 65)
             draw.string("1", 155, 65)
 
             # Min Labels
-            draw.string("32", 25, 155)
-            draw.string("16", 58, 155)
-            draw.string("8", 95, 155)
-            draw.string("4", 125, 155)
-            draw.string("2", 155, 155)
-            draw.string("1", 185, 155)
+            draw.string("32", 32, 155)
+            draw.string("16", 62, 155)
+            draw.string("8", 97, 155)
+            draw.string("4", 127, 155)
+            draw.string("2", 157, 155)
+            draw.string("1", 186, 155)
         else:
             now = wasp.system.bar.update()
             if not now or self._min == now[4]:
                 # Skip the update
                 return
-        
-        draw.set_font(fonts.sans18)
 
         self._draw_clock(draw, now, 90, 90)
 
