@@ -40,3 +40,6 @@ file = 'watch_faces/chrono.py'
 
 [[watchface]]
 file = 'watch_faces/terminal.py'
+
+[[watchface]]
+file = 'watch_faces/binary_clock.py'
